@@ -1,4 +1,4 @@
-# RAG Observability Demo
+# RAG Architecture Demo
 
 A small Retrieval-Augmented Generation (RAG) app built to *show*, not just tell, the concepts behind a RAG pipeline: chunking strategy, multi-layer caching, and latency metrics.
 

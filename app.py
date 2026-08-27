@@ -4,7 +4,7 @@ import streamlit as st
 from rag import embeddings, llm
 from rag.pipeline import build_index, query
 
-st.set_page_config(page_title="RAG Observability Demo", page_icon="🔎", layout="wide")
+st.set_page_config(page_title="RAG Architecture Demo", page_icon="🔎", layout="wide")
 
 STRATEGIES = ["fixed", "sentence", "paragraph"]
 SAMPLE_QUESTIONS = [
@@ -28,7 +28,7 @@ def ensure_index(strategy: str):
     return st.session_state.indexed[strategy]
 
 
-st.title("🔎 RAG Observability Demo")
+st.title("🔎 RAG Architecture Demo")
 st.caption(
     "Same 5 docs about RAG, indexed 3 ways. Ask a question and watch chunking, "
     "caching, and latency play out live."
