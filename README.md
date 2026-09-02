@@ -7,8 +7,9 @@ Instead of another "chat with your PDF" wrapper, this app indexes the same 5 sho
 ## What it demonstrates
 
 - **Chunking strategies** — fixed-size, sentence-based, and paragraph-based chunking, run against the same source docs and the same question, so you can see how chunk boundaries change what gets retrieved and how the answer reads.
+- **Retrieval methods** — BM25 (keyword), vector (semantic), and hybrid (reciprocal rank fusion of both), run against the same question so you can see keyword search fail on a purely semantic query while vector/hybrid succeed.
 - **Caching layers** — an on-disk embedding cache and LLM response cache. Ask the same question twice and watch `generation_ms` collapse from ~1-3 seconds to ~1 millisecond on the second call.
-- **Metrics** — every query reports a latency breakdown (embed query / retrieval / generation) plus a running history table and chart, so the cost of each pipeline stage is visible instead of hidden behind a single "total time."
+- **Metrics** — every query reports a latency breakdown per retrieval method (embed query / BM25 / vector / fusion / generation) plus a running history table and chart, so the cost of each pipeline stage is visible instead of hidden behind a single "total time."
 
 ## Stack
 
@@ -45,7 +46,7 @@ rag/
   embeddings.py          Ollama embedding calls + disk cache
   llm.py                 Ollama generation calls + disk cache
   cache.py               generic disk-backed cache (hit/miss tracking)
-  pipeline.py             ties it together: build_index() + query()
+  pipeline.py             ties it together: build_index() + query() (vector / bm25 / hybrid)
 data/docs/              the 5 source documents that get chunked & indexed
 ```
 

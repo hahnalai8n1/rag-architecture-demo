@@ -87,16 +87,21 @@ def ensure_index(strategy: str):
 
 st.title("🔎 RAG Architecture Demo")
 st.caption(
-    "Same 5 docs about RAG, indexed 3 ways. Ask a question and watch chunking, "
-    "caching, and latency play out live."
+    "Same 5 docs about RAG, indexed 3 ways. Ask a question and compare chunking "
+    "strategies, retrieval methods (BM25 / Vector / Hybrid), and caching — live."
 )
+
+METHODS = ["bm25", "vector", "hybrid"]
 
 with st.sidebar:
     st.header("Settings")
-    compare_mode = st.checkbox("Compare all 3 chunking strategies", value=True)
-    strategy = None
-    if not compare_mode:
-        strategy = st.radio("Chunking strategy", STRATEGIES, index=0)
+    compare_what = st.radio(
+        "Compare mode",
+        ["Chunking strategies", "Retrieval methods (BM25 / Vector / Hybrid)", "Off (single run)"],
+        index=0,
+    )
+    strategy = st.radio("Chunking strategy", STRATEGIES, index=1)
+    method = st.radio("Retrieval method", METHODS, index=1)
 
     st.divider()
     st.subheader("Cache stats")
@@ -134,18 +139,46 @@ for col, q in zip(cols, SAMPLE_QUESTIONS):
 question = st.text_input("Or type your own question", key="question_input")
 ask = st.button("Ask", type="primary")
 
+def format_timings(r: dict) -> str:
+    badge = lambda hit: " (🟢 cached)" if hit else (" (🔴 computed)" if hit is not None else "")
+    lines = []
+    for k, v in r["timings"].items():
+        if k == "total_ms":
+            continue
+        extra = badge(r["embed_cache_hit"]) if k == "embed_query_ms" else ""
+        extra = badge(r["llm_cache_hit"]) if k == "generation_ms" else extra
+        lines.append(f"{k.replace('_ms', '').replace('_', ' ')}: **{v:.0f} ms**{extra}")
+    lines.append(f"**total: {r['timings']['total_ms']:.0f} ms**")
+    return "  \n".join(lines)
+
+
+def chunk_score_caption(c: dict) -> str:
+    if "distance" in c:
+        return f"source: {c['source']}  ·  distance: {c['distance']:.3f} (lower = closer)"
+    if "score" in c:
+        return f"source: {c['source']}  ·  BM25 score: {c['score']:.3f} (higher = more relevant)"
+    return f"source: {c['source']}  ·  RRF score: {c['rrf_score']:.4f} (higher = more relevant)"
+
+
 if ask and question.strip():
-    strategies_to_run = STRATEGIES if compare_mode else [strategy]
+    if compare_what == "Chunking strategies":
+        runs = [(s, "vector") for s in STRATEGIES]
+    elif compare_what.startswith("Retrieval methods"):
+        runs = [(strategy, m) for m in METHODS]
+    else:
+        runs = [(strategy, method)]
+
     results = []
-    for s in strategies_to_run:
+    for s, m in runs:
         ensure_index(s)
-        results.append(query(s, question))
+        results.append(query(s, question, method=m))
 
     for r in results:
         st.session_state.history.append(
             {
                 "question": r["question"],
                 "strategy": r["strategy"],
+                "method": r["method"],
                 "embed_hit": r["embed_cache_hit"],
                 "llm_hit": r["llm_cache_hit"],
                 **r["timings"],
@@ -156,19 +189,14 @@ if ask and question.strip():
     result_cols = st.columns(len(results))
     for col, r in zip(result_cols, results):
         with col:
-            st.markdown(f"### Strategy: `{r['strategy']}`")
+            label = r["method"] if compare_what.startswith("Retrieval methods") else r["strategy"]
+            heading = "Method" if compare_what.startswith("Retrieval methods") else "Strategy"
+            st.markdown(f"### {heading}: `{label}`")
             st.info(r["answer"])
-            t = r["timings"]
-            badge = lambda hit: "🟢 cached" if hit else "🔴 computed"
-            st.write(
-                f"embed query: **{t['embed_query_ms']:.0f} ms** ({badge(r['embed_cache_hit'])})  \n"
-                f"retrieval: **{t['retrieval_ms']:.0f} ms**  \n"
-                f"generation: **{t['generation_ms']:.0f} ms** ({badge(r['llm_cache_hit'])})  \n"
-                f"**total: {t['total_ms']:.0f} ms**"
-            )
+            st.write(format_timings(r))
             with st.expander(f"Retrieved chunks ({len(r['chunks'])})"):
                 for c in r["chunks"]:
-                    st.caption(f"source: {c['source']}  ·  distance: {c['distance']:.3f}")
+                    st.caption(chunk_score_caption(c))
                     st.write(c["text"])
                     st.markdown("---")
 
@@ -181,7 +209,8 @@ if st.session_state.history:
         "Tip: ask the same question twice. Watch generation_ms collapse once the "
         "LLM response cache kicks in."
     )
-    st.bar_chart(df[["embed_query_ms", "retrieval_ms", "generation_ms"]])
+    ms_cols = [c for c in df.columns if c.endswith("_ms") and c != "total_ms"]
+    st.bar_chart(df[ms_cols])
 
 with cache_stats_placeholder:
     e_stats = embeddings.cache_stats()
