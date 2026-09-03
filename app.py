@@ -45,29 +45,55 @@ ARCHITECTURE_SVG = """
     <line x1="660" y1="75" x2="695" y2="75" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
   </g>
 
-  <text x="40" y="185" font-size="16" font-weight="600" fill="#14532d">🔄 Query (online) — runs on every single user question</text>
+  <!-- 3 chunking strategies branching off "Chunk" -->
   <g font-family="sans-serif">
-    <rect x="40"  y="200" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
-    <text x="115" y="235" font-size="14" fill="#14532d" text-anchor="middle">Question</text>
-    <rect x="220" y="200" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
-    <text x="295" y="235" font-size="14" fill="#14532d" text-anchor="middle">Embed</text>
-    <rect x="400" y="200" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
-    <text x="475" y="235" font-size="14" fill="#14532d" text-anchor="middle">Retrieve</text>
-    <rect x="580" y="200" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
-    <text x="655" y="228" font-size="13" fill="#14532d" text-anchor="middle">Augment</text>
-    <text x="655" y="244" font-size="13" fill="#14532d" text-anchor="middle">prompt</text>
-    <rect x="760" y="200" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
-    <text x="835" y="235" font-size="14" fill="#14532d" text-anchor="middle">Generate</text>
-
-    <line x1="190" y1="230" x2="215" y2="230" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
-    <line x1="370" y1="230" x2="395" y2="230" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
-    <line x1="550" y1="230" x2="575" y2="230" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
-    <line x1="730" y1="230" x2="755" y2="230" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+    <line x1="350" y1="105" x2="255" y2="116" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="350" y1="105" x2="350" y2="116" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="350" y1="105" x2="445" y2="116" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="213" y="116" width="85" height="24" rx="6" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.25"/>
+    <text x="255.5" y="132" font-size="10.5" fill="#5b21b6" text-anchor="middle">Fixed</text>
+    <rect x="308" y="116" width="85" height="24" rx="6" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.25"/>
+    <text x="350.5" y="132" font-size="10.5" fill="#5b21b6" text-anchor="middle">Sentence</text>
+    <rect x="403" y="116" width="85" height="24" rx="6" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.25"/>
+    <text x="445.5" y="132" font-size="10.5" fill="#5b21b6" text-anchor="middle">Paragraph</text>
   </g>
 
-  <path d="M 790,105 L 790,150 L 475,150 L 475,195" fill="none"
+  <text x="40" y="155" font-size="16" font-weight="600" fill="#14532d">🔄 Query (online) — runs on every single user question</text>
+  <g font-family="sans-serif">
+    <rect x="40"  y="168" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="115" y="203" font-size="14" fill="#14532d" text-anchor="middle">Question</text>
+    <rect x="220" y="168" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="295" y="203" font-size="14" fill="#14532d" text-anchor="middle">Embed</text>
+    <rect x="400" y="168" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="475" y="203" font-size="14" fill="#14532d" text-anchor="middle">Retrieve</text>
+    <rect x="580" y="168" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="655" y="196" font-size="13" fill="#14532d" text-anchor="middle">Augment</text>
+    <text x="655" y="212" font-size="13" fill="#14532d" text-anchor="middle">prompt</text>
+    <rect x="760" y="168" width="150" height="60" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="835" y="203" font-size="14" fill="#14532d" text-anchor="middle">Generate</text>
+
+    <line x1="190" y1="198" x2="215" y2="198" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+    <line x1="370" y1="198" x2="395" y2="198" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+    <line x1="550" y1="198" x2="575" y2="198" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+    <line x1="730" y1="198" x2="755" y2="198" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+  </g>
+
+  <!-- 3 retrieval methods branching off "Retrieve" -->
+  <g font-family="sans-serif">
+    <line x1="475" y1="228" x2="380" y2="241" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="475" y1="228" x2="475" y2="241" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="475" y1="228" x2="570" y2="241" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="338" y="241" width="85" height="24" rx="6" fill="#fff7ed" stroke="#f97316" stroke-width="1.25"/>
+    <text x="380.5" y="257" font-size="10.5" fill="#9a3412" text-anchor="middle">BM25</text>
+    <rect x="433" y="241" width="85" height="24" rx="6" fill="#fff7ed" stroke="#f97316" stroke-width="1.25"/>
+    <text x="475.5" y="257" font-size="10.5" fill="#9a3412" text-anchor="middle">Vector</text>
+    <rect x="528" y="241" width="85" height="24" rx="6" fill="#fff7ed" stroke="#f97316" stroke-width="1.25"/>
+    <text x="570.5" y="257" font-size="10.5" fill="#9a3412" text-anchor="middle">Hybrid</text>
+  </g>
+
+  <path d="M 790,105 L 790,148 L 475,148 L 475,163" fill="none"
         stroke="#a855f7" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
-  <text x="500" y="145" font-size="12.5" font-style="italic" fill="#7e22ce">indexed vectors get searched at query time</text>
+  <text x="500" y="144" font-size="12" font-style="italic" fill="#7e22ce">indexed vectors get searched at query time</text>
 </svg>
 """
 
@@ -99,9 +125,26 @@ with st.sidebar:
         "Compare mode",
         ["Chunking strategies", "Retrieval methods (BM25 / Vector / Hybrid)", "Off (single run)"],
         index=0,
+        help=(
+            "'Chunking strategies' auto-runs all 3 chunking strategies (using the "
+            "Retrieval method below on all of them). 'Retrieval methods' auto-runs "
+            "all 3 retrieval methods (using the Chunking strategy below as the base "
+            "index). 'Off' runs just the one combination picked below — useful for "
+            "a quick single test without waiting on 3 parallel LLM calls."
+        ),
     )
-    strategy = st.radio("Chunking strategy", STRATEGIES, index=1)
-    method = st.radio("Retrieval method", METHODS, index=1)
+    strategy = st.radio(
+        "Chunking strategy",
+        STRATEGIES,
+        index=1,
+        help="Ignored when comparing chunking strategies (all 3 run). Used as the fixed base index otherwise.",
+    )
+    method = st.radio(
+        "Retrieval method",
+        METHODS,
+        index=1,
+        help="Ignored when comparing retrieval methods (all 3 run). Used as the fixed method otherwise.",
+    )
 
     st.divider()
     st.subheader("Cache stats")
@@ -162,7 +205,7 @@ def chunk_score_caption(c: dict) -> str:
 
 if ask and question.strip():
     if compare_what == "Chunking strategies":
-        runs = [(s, "vector") for s in STRATEGIES]
+        runs = [(s, method) for s in STRATEGIES]
     elif compare_what.startswith("Retrieval methods"):
         runs = [(strategy, m) for m in METHODS]
     else:
