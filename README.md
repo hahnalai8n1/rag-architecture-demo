@@ -6,10 +6,19 @@ Instead of another "chat with your PDF" wrapper, this app indexes the same 5 sho
 
 ## What it demonstrates
 
+- **Architecture diagram** — a collapsible two-pipeline diagram (offline indexing vs. online query) with the chunking strategies and retrieval methods annotated directly on the stage they belong to, instead of a separate slide you have to context-switch to.
 - **Chunking strategies** — fixed-size, sentence-based, and paragraph-based chunking, run against the same source docs and the same question, so you can see how chunk boundaries change what gets retrieved and how the answer reads.
 - **Retrieval methods** — BM25 (keyword), vector (semantic), and hybrid (reciprocal rank fusion of both), run against the same question so you can see keyword search fail on a purely semantic query while vector/hybrid succeed.
 - **Caching layers** — an on-disk embedding cache and LLM response cache. Ask the same question twice and watch `generation_ms` collapse from ~1-3 seconds to ~1 millisecond on the second call.
 - **Metrics** — every query reports a latency breakdown per retrieval method (embed query / BM25 / vector / fusion / generation) plus a running history table and chart, so the cost of each pipeline stage is visible instead of hidden behind a single "total time."
+
+## Using the demo
+
+The sidebar's **Compare mode** picks what the "Ask" button runs:
+
+- **Chunking strategies** — runs the same question through all 3 chunking strategies, using whichever retrieval method is picked under "Pick exact combination" (default: vector).
+- **Retrieval methods** — runs the same question through BM25 / vector / hybrid, using whichever chunking strategy is picked under "Pick exact combination" (default: sentence).
+- **Off (single run)** — runs just one exact combination, no comparison. This is the only mode where "Pick exact combination" auto-expands, since it's the only mode where both pickers actually matter — in the other two modes, one of them is the thing being compared, so it's collapsed away to reduce clutter.
 
 ## Stack
 

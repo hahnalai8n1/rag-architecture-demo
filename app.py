@@ -16,8 +16,8 @@ SAMPLE_QUESTIONS = [
 ]
 
 ARCHITECTURE_SVG = """
-<svg viewBox="0 0 1040 270" xmlns="http://www.w3.org/2000/svg"
-     style="width:100%; height:auto; background:#ffffff; border-radius:12px; padding:10px;">
+<svg viewBox="0 0 1040 270" width="1040" height="270" xmlns="http://www.w3.org/2000/svg"
+     style="display:block; margin:0 auto; max-width:100%; height:auto; background:#ffffff; border-radius:12px; padding:10px;">
   <defs>
     <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5"
             markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -133,7 +133,7 @@ with st.sidebar:
     cache_stats_placeholder = st.container()
 
 with st.expander("🏗️ Architecture — two pipelines, one system", expanded=True):
-    components.html(ARCHITECTURE_SVG, height=320, scrolling=False)
+    components.html(ARCHITECTURE_SVG, height=300, scrolling=False)
 
 with st.expander("📊 RAG vs. Fine-Tuning vs. Prompt Engineering", expanded=True):
     comparison = pd.DataFrame(
